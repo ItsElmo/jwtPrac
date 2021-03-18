@@ -11,7 +11,6 @@ import { User } from './entity/User';
 import { createAccessToken, createRefreshToken } from './auth';
 import { sendRefreshToken } from './sendRefreshToken';
 // lambda function which calls its self
-
 (async () => {
 	const app = express();
 	app.use(cookieParser());
@@ -34,9 +33,9 @@ import { sendRefreshToken } from './sendRefreshToken';
 		if (!user) {
 			return res.send({ ok: false, accessToken: '' });
 		}
-		res.cookie('choclateChip', {
-			httpOnly: true,
-		});
+		if (user.tokenVersion! === payload.tokenVersion) {
+			return res.send({ ok: false, accessToken: '' });
+		}
 		sendRefreshToken(res, createRefreshToken(user));
 		return res.send({ ok: true, accessToken: createAccessToken(user) });
 	});
@@ -53,20 +52,3 @@ import { sendRefreshToken } from './sendRefreshToken';
 		console.log('express server started🥊');
 	});
 })();
-
-// createConnection()
-//   .then(async (connection) => {
-//     console.log('Inserting a new user into the database...');
-//     const user = new User();
-//     user.firstName = 'Timber';
-//     user.lastName = 'Saw';
-//     user.age = 25;
-//     console.log('Saved a new user with id: ' + user.id);
-
-//     console.log('Loading users from the database...');
-//     const users = await connection.manager.find(User);
-//     console.log('Loaded users: ', users);
-
-//     console.log('Here you can setup and run express/koa/any other framework.');
-//   })
-//   .catch((error) => console.log(error));
