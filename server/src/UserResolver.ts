@@ -38,6 +38,7 @@ export class UserResolver {
 	bye(@Ctx() { payload }: MyContext) {
 		return `your user id is: ${payload!.userId}`;
 	}
+
 	@Mutation(() => Boolean)
 	async register(
 		@Arg('email') email: string,

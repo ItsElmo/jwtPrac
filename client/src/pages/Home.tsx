@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useUsersQuery } from 'src/generated/graphql';
+import { useUsersQuery } from '../generated/graphql';
 
 interface HomeProps {}
 
